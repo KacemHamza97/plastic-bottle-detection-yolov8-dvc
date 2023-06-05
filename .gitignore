@@ -1,0 +1,16 @@
+# IDEs
+.idea
+.vscode
+
+## OS configs
+.DS_Store
+
+# Project
+# Project
+runs/*
+data/*
+models/*
+reports/*
+# Python
+__pycache__
+.ipynb_checkpoints
