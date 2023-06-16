@@ -1,0 +1,23 @@
+data_split:
+  train_path: 'data/plastic_bottle_img_dataset/train/images'
+  val_path: 'data/plastic_bottle_img_dataset/valid/images'
+  test_path: 'data/plastic_bottle_img_dataset/test/images'
+
+
+train:
+  data: 'data/plastic_bottle_img_dataset/data.yaml'
+  device: [7]
+  epochs: 30
+  imgsz: [340, 340, 3]
+  seed: 42
+  batch: 64
+  workers: 4
+  best_model: 'runs/detect/train/weights/best.pt'
+  model_path: 'models/best_model.pt'
+
+
+evaluate:
+  device: [7]
+  reports_dir: 'reports'
+  metrics_image: 'yolo_metrics.png'
+  predicted_images: 'predicted_images.png'

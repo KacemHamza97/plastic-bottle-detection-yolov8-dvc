@@ -1,0 +1,25 @@
+stages:
+  train:
+    cmd: python src/stages/train.py --config=params.yaml
+    deps:
+      - data/
+      - src/stages/train.py
+    params:
+      - train
+    outs:
+      - models/best_model.pt
+
+  evaluate:
+    cmd: python src/stages/evaluate.py --config=params.yaml
+    deps:
+      - data/
+      - models/best_model.pt
+      - src/library/utils.py
+      - src/library/visualize.py
+      - src/stages/evaluate.py
+    params:
+      - data_split.test_path
+      - evaluate
+    outs:
+      - reports/yolo_metrics.png
+      - reports/predicted_images.png

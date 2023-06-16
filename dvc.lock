@@ -1,0 +1,67 @@
+schema: '2.0'
+stages:
+  train:
+    cmd: python src/stages/train.py --config=params.yaml
+    deps:
+    - path: data/
+      md5: e8de64e40580b0de613ee3a9c37093a7.dir
+      size: 1707096377
+      nfiles: 8004
+    - path: src/stages/train.py
+      md5: 7e00eb15dd76dc3b06c4b5cba719c66d
+      size: 1099
+    params:
+      params.yaml:
+        train:
+          data: data/plastic_bottle_img_dataset/data.yaml
+          device:
+          - 7
+          epochs: 30
+          imgsz:
+          - 340
+          - 340
+          - 3
+          seed: 42
+          batch: 64
+          workers: 4
+          best_model: runs/detect/train/weights/best.pt
+          model_path: models/best_model.pt
+    outs:
+    - path: models/best_model.pt
+      md5: fd1f6908b9887859be77d4f3e23c09a5
+      size: 12274222
+  evaluate:
+    cmd: python src/stages/evaluate.py --config=params.yaml
+    deps:
+    - path: data/
+      md5: e8de64e40580b0de613ee3a9c37093a7.dir
+      size: 1707096377
+      nfiles: 8004
+    - path: models/best_model.pt
+      md5: fd1f6908b9887859be77d4f3e23c09a5
+      size: 12274222
+    - path: src/library/utils.py
+      md5: a087ca1482633636af216c1dd736628e
+      size: 432
+    - path: src/library/visualize.py
+      md5: 153faa954d26477bd8c7053155e2a61f
+      size: 4042
+    - path: src/stages/evaluate.py
+      md5: fe07b854d50447f4d478ccc98077fadf
+      size: 1425
+    params:
+      params.yaml:
+        data_split.test_path: data/plastic_bottle_img_dataset/test/images
+        evaluate:
+          device:
+          - 7
+          reports_dir: reports
+          metrics_image: yolo_metrics.png
+          predicted_images: predicted_images.png
+    outs:
+    - path: reports/predicted_images.png
+      md5: 63475b403c1b7a0903537896e7a47172
+      size: 1578589
+    - path: reports/yolo_metrics.png
+      md5: 63678b0d1fd714192657d07f67862b7b
+      size: 17664
